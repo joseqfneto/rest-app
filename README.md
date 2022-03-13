@@ -13,7 +13,7 @@ Projeto de Api Rest em Java usando Spring Boot
 - Implementação de Entidades
 - Implementação dos DTOs
 - JPA para persistência no banco de dados
-- Validação dos campos
+- Validação dos campos no DTO (Validate)
 - Tratamento de erro*
 - Implementação de segurança*
 
