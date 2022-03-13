@@ -12,6 +12,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -49,17 +50,27 @@ public class ProdutoController {
     }
 
     @PutMapping("/save/{id}")
-    public ResponseEntity<Object> update(@RequestBody @Valid ProdutoDto produtoDto, @PathVariable(name = "id") Long id) {
+    public ResponseEntity<Object> update(@RequestBody @Valid ProdutoDto produtoDto,
+            @PathVariable(name = "id") Long id) {
         Optional<Produto> produtoOpt = produtoSevice.findById(id);
 
         if (produtoOpt.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
         }
-        
+
         Produto produto = produtoOpt.get();
         BeanUtils.copyProperties(produtoDto, produto);
         produto.setId(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(produtoSevice.save(produto));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> delete(@PathVariable(name = "id") Long id) {
+        Optional<Produto> produto = produtoSevice.findById(id);
+        if (produto.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
+        }
+        return ResponseEntity.status(HttpStatus.OK).body("Produto excluído!");
     }
 }
