@@ -40,5 +40,12 @@ public class ProdutoController {
         }
         return ResponseEntity.status(HttpStatus.OK).body(produtoSevice.findById(id));
     }
+
+    @PostMapping("/save")
+    public ResponseEntity<Object> post(@RequestBody @Valid ProdutoDto produtoDto) {
+        Produto produto = new Produto();
+        BeanUtils.copyProperties(produtoDto, produto);
+        return ResponseEntity.status(HttpStatus.OK).body(produtoSevice.save(produto));
+    }
     
 }
