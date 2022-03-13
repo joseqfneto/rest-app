@@ -71,6 +71,7 @@ public class ProdutoController {
         if (produto.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado!");
         }
+        produtoSevice.deleteById(id);
         return ResponseEntity.status(HttpStatus.OK).body("Produto excluído!");
     }
 }
