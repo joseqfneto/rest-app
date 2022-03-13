@@ -47,5 +47,19 @@ public class ProdutoController {
         BeanUtils.copyProperties(produtoDto, produto);
         return ResponseEntity.status(HttpStatus.OK).body(produtoSevice.save(produto));
     }
-    
+
+    @PutMapping("/save/{id}")
+    public ResponseEntity<Object> update(@RequestBody @Valid ProdutoDto produtoDto, @PathVariable(name = "id") Long id) {
+        Optional<Produto> produtoOpt = produtoSevice.findById(id);
+
+        if (produtoOpt.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Produto não encontrado");
+        }
+        
+        Produto produto = produtoOpt.get();
+        BeanUtils.copyProperties(produtoDto, produto);
+        produto.setId(id);
+
+        return ResponseEntity.status(HttpStatus.OK).body(produtoSevice.save(produto));
+    }
 }
